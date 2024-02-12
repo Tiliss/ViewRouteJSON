@@ -2,84 +2,314 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>349</height>
+    <width>1448</width>
+    <height>644</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>3D Visualization</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Рабочий стол/3д/threejs_diplom/static/resources/favicon.ico</normaloff>../Рабочий стол/3д/threejs_diplom/static/resources/favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QPushButton" name="openBtn">
-      <property name="text">
-       <string>Подключиться</string>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1" rowspan="7">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>250</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="title">
+       <string>TCP клиент</string>
+      </property>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>181</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Подключение к серверу:</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>129</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetFixedSize</enum>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>OFF</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="cb_connect">
+          <property name="styleSheet">
+           <string notr="true">/* CSS для переключателя */
+QCheckBox {
+    spacing: 0px; /* Удаление отступа между флажком и текстом */
+    background-color: transparent; /* Прозрачный фон флажка */
+    border: none; /* Удаление границы */
+    width: 20px; /* Уменьшение ширины флажка */
+    height: 20px; /* Уменьшение высоты флажка */
+    padding: 0; /* Удаление отступов вокруг флажка */
+    border-radius: 10px; /* Скругление углов флажка */
+    position: relative; /* Позиционирование элемента */
+}
+
+QCheckBox::indicator {
+    width: 30px; /* Ширина индикатора (флажка) */
+    height: 20px; /* Высота индикатора (флажка) */
+    border-radius: 10px; /* Радиус скругления углов индикатора (флажка) */
+    background-color: #E74C3C; /* Красный цвет фона индикатора (флажка) при отключенном состоянии */
+    border: 1px solid #000; /* Черная рамка индикатора (флажка) */
+    position: absolute; /* Позиционирование элемента */
+    left: 0; /* Отступ слева */
+}
+
+QCheckBox::indicator:checked {
+    background-color: #3C8D2F; /* Зеленый цвет фона индикатора (флажка) при включенном состоянии */
+    left: 20px; /* Перемещение вправо при активации */
+}
+
+/* Изменение цвета при наведении */
+QCheckBox::indicator:hover {
+    background-color: #C0392B; /* Темно красный цвет фона индикатора (флажка) при наведении в выключенном состоянии */
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: #2E7D32; /* Темно зеленый цвет фона индикатора (флажка) при наведении включенном состоянии */
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>ON</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>331</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+        <item>
+         <widget class="QPushButton" name="sendObjectBtn">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Отправить объект</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="sendPosBtn">
+          <property name="text">
+           <string>Отправить позицию</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="sendPathBtn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Отправить путь</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="responcelb">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Ответ сервера: </string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QPushButton" name="closeBtn">
-      <property name="text">
-       <string>Отключиться</string>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>140</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Карта</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>32</y>
+         <width>331</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QListWidget" name="listWidget">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_map">
+          <property name="text">
+           <string>Изменить карту</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QPushButton" name="sendPathBtn">
-      <property name="text">
-       <string>Отправить путь</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="sendObjectBtn">
-      <property name="text">
-       <string>Отправить объект</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="sendPosBtn">
-      <property name="text">
-       <string>Отправить точку</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="responcelb">
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="text">
-       <string>Server responce:</string>
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>180</height>
+       </size>
       </property>
-      <property name="wordWrap">
-       <bool>true</bool>
+      <property name="title">
+       <string>Камеры</string>
       </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="serverlb">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Server disconnect</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>331</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QListWidget" name="lv_clients"/>
+        </item>
+        <item>
+         <widget class="QListWidget" name="lv_cam"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>140</y>
+         <width>331</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="btn_GetClients">
+          <property name="text">
+           <string>Обновить клиентов</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_camChange">
+          <property name="text">
+           <string>Изменить камеру</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -89,7 +319,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>677</width>
+     <width>1448</width>
      <height>22</height>
     </rect>
    </property>
