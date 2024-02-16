@@ -15,3 +15,21 @@ git clone https://github.com/Tiliss/ViewRouteJSON.git
 
 4. Соберите проект, следуя инструкциям в Qt Creator.
 
+## Запуск
+
+1. Запустите основное [приложение](https://github.com/Tiliss/3DViewFlightVisualization), которое отображает 3D графику.
+
+2. Запустите это приложение.
+
+3. Настройте адрес сервера и порт в файле `mainwindow.cpp`, которые вы указали в файле `settings.json` в [основном приложении](https://github.com/Tiliss/3DViewFlightVisualization) для __TCP__ сервера, а также укажите полный адрес страницы.
+
+```C++
+//Устанавливаем адрес отображаемой страницы
+pg->setUrl(QUrl("http://Адрес:Порт/"));
+
+// Устанавливаем адрес и порт сервера TCP
+QString serverAddress = "127.0.0.1";
+quint16 serverPort = 8080;
+```
+
+## Использование
