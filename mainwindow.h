@@ -35,6 +35,14 @@ private slots:
 
      void on_btn_camChange_clicked();
 
+     void on_btnStart_clicked();
+
+     void on_btnStop_clicked();
+
+     void sendPosition();
+
+     void Connect();
+
 private:
     Ui::MainWindow *ui;
 };

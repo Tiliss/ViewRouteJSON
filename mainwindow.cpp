@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 // Создаем объект QTcpSocket
 QTcpSocket tcpSocket;
-
+QTimer *timer = new QTimer();
 // Устанавливаем адрес и порт сервера
 QString serverAddress = "127.0.0.1";
 quint16 serverPort = 8080;
@@ -49,6 +49,7 @@ void MainWindow::on_sendPathBtn_clicked()
 {
     QString jsonFilePath = "/home/user/Рабочий стол/3д/path.json";
     sendData(jsonFilePath);
+    Connect();
 }
 
 
@@ -56,23 +57,20 @@ void MainWindow::on_sendObjectBtn_clicked()
 {
     QString jsonFilePath = "/home/user/Рабочий стол/3д/object.json";
     sendData(jsonFilePath);
+    ui->btnStart->setEnabled(true);
 //    QString obj = "{\"what\":\"update_objects\",\"objects\":[{\"id\":\"obj1\",\"type\":\"Plane\",\"isRemove\":false},{\"id\":\"obj2\",\"type\":\"Plane\",\"isRemove\":false}]}";
 //    //QString pos = "{\"what\":\"update_positions\",\"positions\":[{\"id\":\"obj1\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":200,\"roll\":30,\"pitch\":-10,\"yaw\":180},{\"id\":\"obj2\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":150,\"roll\":100,\"pitch\":10,\"yaw\":10}]}";
 
 //    tcpSocket.write(obj.toUtf8());
 
-//    // Создаем таймер
-//        QTimer *timer = new QTimer(this);
-
-//        // Запускаем таймер с интервалом 1000 миллисекунд (1 секунда)
-//        timer->start(6);
+//        timer->start(5);
 //        int roll = 0;
 //        // Подключаем к таймеру функцию-обработчик срабатывания таймера
 //        connect(timer, &QTimer::timeout, [=]() mutable {
 //            QString pos;
 //            if(roll < 360)
 //            {
-//                pos = QString("{\"what\":\"update_positions\",\"positions\":[{\"id\":\"obj1\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":200,\"roll\":%1,\"pitch\":-10,\"yaw\":180},{\"id\":\"obj2\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":150,\"roll\":100,\"pitch\":10,\"yaw\":10}]}").arg(roll);
+//                pos = QString("{\"what\":\"update_positions\",\"positions\":[{\"id\":\"obj1\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":200,\"roll\":%1,\"pitch\":-10,\"yaw\":180},{\"id\":\"obj2\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":150,\"roll\":100,\"pitch\":10,\"yaw\":10}]}\0").arg(roll);
 //                roll++;
 //            }
 //            else
@@ -83,6 +81,7 @@ void MainWindow::on_sendObjectBtn_clicked()
 //            tcpSocket.write(pos.toUtf8());
 //            qDebug() << "Данные отправлены";
 //        });
+    Connect();
 }
 
 
@@ -90,6 +89,7 @@ void MainWindow::on_sendPosBtn_clicked()
 {
     QString jsonFilePath = "/home/user/Рабочий стол/3д/position.json";
     sendData(jsonFilePath);
+    Connect();
 }
 
 void MainWindow::sendData(QString(jsonFilePath))
@@ -106,6 +106,7 @@ void MainWindow::sendData(QString(jsonFilePath))
     tcpSocket.write(jsonData);
 
     GetResponce();
+    Connect();
 }
 
 bool connected = false;
@@ -142,6 +143,7 @@ void MainWindow::GetResponce() {
         qDebug() << "Error: Timeout waiting for response";
         ui->responcelb->setText("Ошибка: тайм-аут ожидания ответа");
     }
+    Connect();
 }
 
 void MainWindow::on_btn_map_clicked()
@@ -158,6 +160,7 @@ void MainWindow::on_btn_map_clicked()
 
         tcpSocket.write(jsonString.toUtf8());
         GetResponce();
+        Connect();
     }
 
 }
@@ -170,7 +173,6 @@ void MainWindow::on_btn_GetClients_clicked()
 
     QJsonDocument jsonDoc(json);
     QString jsonString = jsonDoc.toJson(QJsonDocument::Compact);
-
     tcpSocket.write(jsonString.toUtf8());
 
     if (tcpSocket.waitForReadyRead()) {
@@ -180,6 +182,7 @@ void MainWindow::on_btn_GetClients_clicked()
         QStringList myList = responseString.split(";");
         ui->lv_clients->clear();
         ui->lv_clients->addItems(myList);
+        Connect();
     }
 }
 
@@ -197,9 +200,58 @@ void MainWindow::on_btn_camChange_clicked()
 
         QJsonDocument jsonDoc(json);
         QString jsonString = jsonDoc.toJson(QJsonDocument::Compact);
-
         tcpSocket.write(jsonString.toUtf8());
         GetResponce();
+        Connect();
     }
 }
 
+
+void MainWindow::on_btnStart_clicked()
+{
+    ui->btnStop->setEnabled(true);
+        ui->btnStart->setEnabled(false);
+        int time = ui->spinBox->value();
+        timer->start(time);
+        // Подключаем к таймеру функцию-обработчик срабатывания таймера
+        connect(timer, &QTimer::timeout, this, &MainWindow::sendPosition);
+        Connect();
+}
+
+
+void MainWindow::on_btnStop_clicked()
+{
+    ui->btnStart->setEnabled(true);
+    ui->btnStop->setEnabled(false);
+    timer->stop();
+    // Отключаем обработчик таймера
+    disconnect(timer, &QTimer::timeout, this, &MainWindow::sendPosition);
+    Connect();
+}
+
+int roll = 0;
+void MainWindow::sendPosition()
+{
+    QString pos;
+    if(roll < 360)
+    {
+        pos = QString("{\"what\":\"update_positions\",\"positions\":[{\"id\":\"obj1\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":200,\"roll\":%1,\"pitch\":-10,\"yaw\":180},{\"id\":\"obj2\",\"lat\":125.98242506147994,\"lon\":29.66258160855277,\"alt\":150,\"roll\":100,\"pitch\":10,\"yaw\":10}]}\0").arg(roll);
+        roll++;
+    }
+    else
+    {
+        roll = 0;
+    }
+    // Отправляем данные через tcpSocket
+    tcpSocket.write(pos.toUtf8());
+    qDebug() << "Данные отправлены";
+    QByteArray responseData = tcpSocket.readAll();
+    Connect();
+}
+
+void MainWindow::Connect()
+{
+    if (!connected){
+         ui->cb_connect->setChecked(false);
+    }
+}
