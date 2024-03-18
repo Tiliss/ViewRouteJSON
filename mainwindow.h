@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QTimer>
+#include <QWebEnginePage>
+#include <QWebEngineView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -43,7 +45,41 @@ private slots:
 
      void Connect();
 
+     void positionSet();
+
+     void on_sliderRoll_valueChanged(int value);
+
+     void on_sliderPitch_valueChanged(int value);
+
+     void on_sliderYaw_valueChanged(int value);
+
+     void on_sbLat_valueChanged(double arg1);
+
+     void on_sbLon_valueChanged(double arg1);
+
+     void on_sbAlt_valueChanged(int arg1);
+
+     void on_cbObject_currentIndexChanged(int index);
+
+     void serverStart();
+
+     void on_lineEditSite_editingFinished();
+
+     void orbitalPosition();
+
+     void on_spinBoxRadius_valueChanged(int arg1);
+
+     void on_sliderTheta_valueChanged(int value);
+
+     void on_sliderPhi_valueChanged(int value);
+
+     void on_lv_cam_itemSelectionChanged();
+
+     void on_cb_connect_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
+    QWebEngineView *web;
+    QWebEnginePage *pg;
 };
 #endif // MAINWINDOW_H
